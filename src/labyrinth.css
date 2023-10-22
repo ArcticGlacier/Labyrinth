@@ -1,0 +1,26 @@
+.cell-0 {
+    height: 10vh;
+    width:5vw;
+    background-color: rgb(255, 255, 255); /* Empty cells */
+  }
+  
+  .cell-1 {
+    height: 10vh;
+    width:5vw;
+    background-color: rgb(0, 0, 0); /* Walls */
+  }
+  
+  .cell-2 {
+    background-color: rgb(255, 0, 0); /* Special cell with value 2 */
+    height:10vh;
+    width:5vw;
+    border-radius: 50%;
+  }
+  
+  .cell-3, .cell-4 {
+    background-color: rgb(41, 41, 71); /* Special cell with value 3 */
+    height: 10vh;
+    width:5vw;
+    border-radius: 50%;
+  }
+  
