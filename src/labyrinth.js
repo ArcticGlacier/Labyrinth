@@ -36,13 +36,13 @@ export default function Labyrinth(props) {
       let newCol = ballCol;
 
       // Up
-      if (beta < -30 && ballRow > 0 && labyrinth[ballRow - 1][ballCol] != 1) {
+      if (beta < 0 && ballRow > 0 && labyrinth[ballRow - 1][ballCol] != 1) {
         console.log(ballRow - 1);
         newRow = ballRow - 1;
       }
       // Down
       else if (
-        beta > 30 &&
+        beta > 0 &&
         ballRow < numRows - 1 &&
         labyrinth[ballRow + 1][ballCol] != 1
       ) {
@@ -50,7 +50,7 @@ export default function Labyrinth(props) {
       }
       // Left
       else if (
-        gamma > -30 &&
+        gamma > 0 &&
         ballCol > 0 &&
         labyrinth[ballRow][ballCol - 1] != 1
       ) {
@@ -58,7 +58,7 @@ export default function Labyrinth(props) {
       }
       // Right
       else if (
-        gamma < 30 &&
+        gamma < 0 &&
         ballCol < numCols - 1 &&
         labyrinth[ballRow][ballCol + 1] != 1
       ) {
