@@ -31,13 +31,30 @@ export default function Labyrinth() {
       let newRow = ballRow;
       let newCol = ballCol;
 
-      if (event.key === "ArrowUp" && ballRow > 0) {
+      if (
+        event.key === "ArrowUp" &&
+        ballRow > 0 &&
+        labyrinth[ballRow - 1][ballCol] != 1
+      ) {
+        console.log(ballRow - 1);
         newRow = ballRow - 1;
-      } else if (event.key === "ArrowDown" && ballRow < numRows - 1) {
+      } else if (
+        event.key === "ArrowDown" &&
+        ballRow < numRows - 1 &&
+        labyrinth[ballRow + 1][ballCol] != 1
+      ) {
         newRow = ballRow + 1;
-      } else if (event.key === "ArrowLeft" && ballCol > 0) {
+      } else if (
+        event.key === "ArrowLeft" &&
+        ballCol > 0 &&
+        labyrinth[ballRow][ballCol - 1] != 1
+      ) {
         newCol = ballCol - 1;
-      } else if (event.key === "ArrowRight" && ballCol < numCols - 1) {
+      } else if (
+        event.key === "ArrowRight" &&
+        ballCol < numCols - 1 &&
+        labyrinth[ballRow][ballCol + 1] != 1
+      ) {
         newCol = ballCol + 1;
       }
 
