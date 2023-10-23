@@ -27,31 +27,31 @@ export default function Labyrinth(props) {
   ]);
 
   useEffect(() => {
-    const handleKeyPress = (event) => {
+    const handleOrientation = (event) => {
+      const alpha = event.alpha; // Rotation around the z-axis
+      const beta = event.beta; // Rotation around the x-axis
+      const gamma = event.gamma;
+
       let newRow = ballRow;
       let newCol = ballCol;
 
-      if (
-        event.key === "ArrowUp" &&
-        ballRow > 0 &&
-        labyrinth[ballRow - 1][ballCol] != 1
-      ) {
+      if (beta < -30 && ballRow > 0 && labyrinth[ballRow - 1][ballCol] != 1) {
         console.log(ballRow - 1);
         newRow = ballRow - 1;
       } else if (
-        event.key === "ArrowDown" &&
+        beta > 30 &&
         ballRow < numRows - 1 &&
         labyrinth[ballRow + 1][ballCol] != 1
       ) {
         newRow = ballRow + 1;
       } else if (
-        event.key === "ArrowLeft" &&
+        gamma > 30 &&
         ballCol > 0 &&
         labyrinth[ballRow][ballCol - 1] != 1
       ) {
         newCol = ballCol - 1;
       } else if (
-        event.key === "ArrowRight" &&
+        gamma < -30 &&
         ballCol < numCols - 1 &&
         labyrinth[ballRow][ballCol + 1] != 1
       ) {
@@ -96,12 +96,12 @@ export default function Labyrinth(props) {
 
     if (eventListenerAdded) {
       // Only add the event listener if it hasn't been added yet
-      window.addEventListener("keydown", handleKeyPress);
+      window.addEventListener("deviceorientation", handleOrientation, true);
       eventListenerAdded.current = false;
     }
 
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("deviceorientation", handleOrientation);
     };
   }, [ballCol, ballRow, labyrinth]);
 
