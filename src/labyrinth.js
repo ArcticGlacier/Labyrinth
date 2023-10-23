@@ -58,6 +58,11 @@ export default function Labyrinth() {
         newCol = ballCol + 1;
       }
 
+      if (labyrinth[newRow][newCol] == 3) {
+        newRow = 9;
+        newCol = 5;
+      }
+
       const newGrid = labyrinth.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           if (rowIndex === newRow && colIndex === newCol) {
