@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./labyrinth.css";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 const numRows = 10;
 const numCols = 10;
@@ -8,6 +9,8 @@ const numCols = 10;
 export default function Labyrinth() {
   const [ballRow, setBallRow] = useState(9);
   const [ballCol, setBallCol] = useState(5);
+  // Create a ref to track the event listener
+  const eventListenerAdded = useRef(true);
 
   // 1 represents walls, 0 is path, 3 is holes, 2 is ball, 4 is winning hole
   const [labyrinth, setLabyrinth] = useState([
@@ -56,10 +59,16 @@ export default function Labyrinth() {
       setBallCol(newCol);
     };
 
-    window.addEventListener("keydown", (event) => {
-      handleKeyPress(event);
-    });
-  }, [ballRow, ballCol, labyrinth]);
+    if (eventListenerAdded) {
+      // Only add the event listener if it hasn't been added yet
+      window.addEventListener("keydown", handleKeyPress);
+      eventListenerAdded.current = false;
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [ballCol, ballRow, labyrinth]);
 
   return (
     <table cellSpacing="0" cellPadding="0">
