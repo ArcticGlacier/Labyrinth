@@ -6,7 +6,7 @@ import { useRef } from "react";
 const numRows = 10;
 const numCols = 10;
 
-export default function Labyrinth() {
+export default function Labyrinth(props) {
   const [ballRow, setBallRow] = useState(9);
   const [ballCol, setBallCol] = useState(5);
   // Create a ref to track the event listener
@@ -61,6 +61,19 @@ export default function Labyrinth() {
       if (labyrinth[newRow][newCol] == 3) {
         newRow = 9;
         newCol = 5;
+      }
+      if (labyrinth[newRow][newCol] == 4) {
+        const newGrid = labyrinth.map((row) =>
+          row.map((cell) => {
+            return 1;
+          })
+        );
+
+        setLabyrinth(newGrid);
+        setBallRow(newRow);
+        setBallCol(newCol);
+        props.unlock();
+        return;
       }
 
       const newGrid = labyrinth.map((row, rowIndex) =>
