@@ -1,8 +1,13 @@
 import { useState } from "react";
 import "./labyrinth.css";
 import { useEffect } from "react";
+
+const numRows = 10;
+const numCols = 10;
+
 export default function Labyrinth() {
-  const [ballCoords, setBallCoords] = useState({ row: 9, column: 5 });
+  const [ballRow, setBallRow] = useState(9);
+  const [ballCol, setBallCol] = useState(5);
 
   // 1 represents walls, 0 is path, 3 is holes, 2 is ball, 4 is winning hole
   const [labyrinth, setLabyrinth] = useState([
@@ -18,49 +23,43 @@ export default function Labyrinth() {
     [1, 1, 1, 1, 1, 2, 1, 1, 1, 1],
   ]);
 
-  function moveBallUp() {
-    let maze = labyrinth;
-    maze[ballCoords.row][ballCoords.column] = 0;
-    maze[ballCoords.row - 1][ballCoords.column] = 2;
-    setLabyrinth(maze);
-    setBallCoords({ row: ballCoords.row - 1, column: ballCoords.column });
-  }
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      let newRow = ballRow;
+      let newCol = ballCol;
 
-  function moveBallDown() {
-    let maze = labyrinth;
-    maze[ballCoords.row][ballCoords.column] = 0;
-    maze[ballCoords.row + 1][ballCoords.column] = 2;
-    setLabyrinth(maze);
-    setBallCoords({ row: ballCoords.row + 1, column: ballCoords.column });
-  }
+      if (event.key === "ArrowUp" && ballRow > 0) {
+        newRow = ballRow - 1;
+      } else if (event.key === "ArrowDown" && ballRow < numRows - 1) {
+        newRow = ballRow + 1;
+      } else if (event.key === "ArrowLeft" && ballCol > 0) {
+        newCol = ballCol - 1;
+      } else if (event.key === "ArrowRight" && ballCol < numCols - 1) {
+        newCol = ballCol + 1;
+      }
 
-  function moveBallLeft() {
-    let maze = labyrinth;
-    maze[ballCoords.row][ballCoords.column] = 0;
-    maze[ballCoords.row][ballCoords.column - 1] = 2;
-    setLabyrinth(maze);
-    setBallCoords({ row: ballCoords.row, column: ballCoords.column - 1 });
-  }
+      const newGrid = labyrinth.map((row, rowIndex) =>
+        row.map((cell, colIndex) => {
+          if (rowIndex === newRow && colIndex === newCol) {
+            return 2;
+          }
+          if (rowIndex === ballRow && colIndex === ballCol) {
+            return 0;
+          } else {
+            return cell;
+          }
+        })
+      );
 
-  function moveBallRight() {
-    let maze = labyrinth;
-    maze[ballCoords.row][ballCoords.column] = 0;
-    maze[ballCoords.row][ballCoords.column + 1] = 2;
-    setLabyrinth(maze);
-    setBallCoords({ row: ballCoords.row, column: ballCoords.column + 1 });
-  }
+      setLabyrinth(newGrid);
+      setBallRow(newRow);
+      setBallCol(newCol);
+    };
 
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowUp") {
-      moveBallUp();
-    } else if (event.key === "ArrowDown") {
-      moveBallDown();
-    } else if (event.key === "ArrowLeft") {
-      moveBallLeft();
-    } else if (event.key === "ArrowRight") {
-      moveBallRight();
-    }
-  });
+    window.addEventListener("keydown", (event) => {
+      handleKeyPress(event);
+    });
+  }, [ballRow, ballCol, labyrinth]);
 
   return (
     <table cellSpacing="0" cellPadding="0">
