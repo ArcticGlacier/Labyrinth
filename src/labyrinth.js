@@ -50,19 +50,19 @@ export default function Labyrinth(props) {
       }
       // Left
       else if (
-        gamma < -30 &&
+        gamma > 30 &&
         ballCol > 0 &&
         labyrinth[ballRow][ballCol - 1] != 1
       ) {
-        newCol = ballCol - 1;
+        newCol = ballCol + 1;
       }
       // Right
       else if (
-        gamma > 30 &&
+        gamma < -30 &&
         ballCol < numCols - 1 &&
         labyrinth[ballRow][ballCol + 1] != 1
       ) {
-        newCol = ballCol + 1;
+        newCol = ballCol - 1;
       }
 
       if (labyrinth[newRow][newCol] == 3) {
